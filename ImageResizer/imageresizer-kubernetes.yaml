@@ -1,0 +1,44 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: image-resizer
+  namespace: hpa
+  labels:
+    app: image-resizer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: image-resizer
+  template:
+    metadata:
+      labels:
+        app: image-resizer
+    spec:
+      containers:
+      - name: image-resizer
+        image: riazvm/publicrepo:imageresizerv2
+        resources:
+          limits:
+            memory: "538Mi"
+        env:
+        - name: JAVA_OPTS
+          value: "-Xmx512m -Xms512m"
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 8080
+          initialDelaySeconds: 25
+          timeoutSeconds: 5
+          failureThreshold: 5
+      imagePullSecrets:
+      - name: gitlab-com
