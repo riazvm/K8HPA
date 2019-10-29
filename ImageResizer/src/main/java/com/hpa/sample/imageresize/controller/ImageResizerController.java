@@ -31,15 +31,10 @@ public class ImageResizerController {
             BufferedImage resizedImage = this.imageResizerService.resize(file.getBytes());
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ImageIO.write( resizedImage  , "jpg", byteArrayOutputStream);
+            ImageIO.write( resizedImage  , "png", byteArrayOutputStream);
             byte[] bytes = byteArrayOutputStream.toByteArray();
              
             return "OK";
-            		
-            		//ResponseEntity.ok()
-                    //.contentLength(bytes.length)
-                    //.contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    //.body(bytes);
         } catch (IOException e) {
             return "Failed";
         }

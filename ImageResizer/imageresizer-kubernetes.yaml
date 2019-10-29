@@ -40,5 +40,3 @@ spec:
           initialDelaySeconds: 25
           timeoutSeconds: 5
           failureThreshold: 5
-      imagePullSecrets:
-      - name: gitlab-com
